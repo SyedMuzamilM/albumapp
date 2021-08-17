@@ -31,7 +31,6 @@ export const PhotoAlbum = () => {
   return (
     <div>
       <SearchInput getInputValue={getInputValue} />
-      {/* {searchValue && <ShowSearchItems searchValue={searchValue} />} */}
       {searchValue ? (
         <AlbumPhotos albums={searchedAlbums} photos={searchedPhotos} />
       ) : (

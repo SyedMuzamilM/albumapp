@@ -1,10 +1,7 @@
 import axios from "axios";
 import { GET_ALBUMS, GET_PHOTOS } from "./actionTypes";
-import store from "../store";
 
-const albums = store.getState().albums;
-const albumIds = albums.map((album) => album.id);
-
+const albumIds = [1, 2, 3, 4, 5];
 
 export const getPhotos = (photos) => {
   return {
@@ -40,6 +37,7 @@ export const fetchPhotos = () => {
       .get("https://jsonplaceholder.typicode.com/photos/")
       .then((response) => {
         const data = response.data;
+        console.log(data);
         const items = data.filter((photo) => albumIds.includes(photo.albumId));
         const album1 = [];
         const album2 = [];
@@ -47,27 +45,21 @@ export const fetchPhotos = () => {
         const album4 = [];
         const album5 = [];
 
-        items.forEach((item) => {
-          switch (item.albumId) {
-            case 1:
-              album1.push(item);
-              break;
-            case 2:
-              album2.push(item);
-              break;
-            case 3:
-              album3.push(item);
-              break;
-            case 4:
-              album4.push(item);
-              break;
-            case 5:
-              album5.push(item);
-              break;
-            default:
-              break;
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].albumId === 1 && album1.length < 10) {
+            album1.push(items[i]);
+          } else if (items[i].albumId === 2 && album2.length < 10) {
+            album2.push(items[i]);
+          } else if (items[i].albumId === 3 && album3.length < 10) {
+            album3.push(items[i]);
+          } else if (items[i].albumId === 4 && album4.length < 10) {
+            album4.push(items[i]);
+          } else if (items[i].albumId === 1 && album5.length < 10) {
+            album5.push(items[i]);
           }
-        });
+        }
+
+        console.log(album1);
 
         const photos = [
           ...album1.slice(0, 10),
@@ -77,9 +69,11 @@ export const fetchPhotos = () => {
           ...album5.slice(0, 10),
         ];
 
-        // console.log(photos);                                                            
+        console.log(photos);
 
-        dispatch(getPhotos(photos));
+        dispatch(
+          getPhotos(photos)
+        );
       })
       .catch((err) => {
         console.log(err);
