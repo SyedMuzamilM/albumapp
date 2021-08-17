@@ -1,13 +1,14 @@
-import { Avatar, Box, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPhotos, fetchAlbums } from "../redux/photoAlbum/actions";
-import { Photo } from "./photo";
+import { AlbumPhotos } from "./AlbumPhotos";
 import { SearchInput } from "./searchInput";
 
 export const PhotoAlbum = () => {
   const dispatch = useDispatch();
+  const [searchValue, setSearchValue] = useState("");
   const [searchedPhotos, setSearchedPhotos] = useState([]);
+  const [searchedAlbums, setSearchedAlbums] = useState([]);
 
   useEffect(() => {
     dispatch(fetchAlbums());
@@ -18,35 +19,24 @@ export const PhotoAlbum = () => {
   const albums = useSelector((state) => state.albums);
 
   const getInputValue = (value) => {
-    const sPhotos = photos.filter(photo => photo.title.includes(value));
+    setSearchValue(value);
+    const sPhotos = photos.filter((photo) => photo.title.includes(value));
     setSearchedPhotos(sPhotos);
-  }
+    const albumIds = sPhotos.map((photo) => photo.albumId);
+    const unique = [...new Set(albumIds)];
+    const sAlbums = albums.filter((album) => unique.includes(album.id));
+    setSearchedAlbums(sAlbums);
+  };
 
   return (
     <div>
       <SearchInput getInputValue={getInputValue} />
       {/* {searchValue && <ShowSearchItems searchValue={searchValue} />} */}
-      {albums.map((album) => {
-        return (
-          <div key={album.id}>
-            <Typography variant="h2" >{album.title}</Typography>
-            <Box mt={2}>
-              {photos.map((photo) => {
-                return (
-                  photo.albumId == album.id && (
-                    <Photo
-                      key={photo.id}
-                      title={photo.title}
-                      url={photo.url}
-                      thumbnailUrl={photo.thumbnailUrl}
-                    />
-                  )
-                );
-              })}
-            </Box>
-          </div>
-        );
-      })}
+      {searchValue ? (
+        <AlbumPhotos albums={searchedAlbums} photos={searchedPhotos} />
+      ) : (
+        <AlbumPhotos albums={albums} photos={photos} />
+      )}
     </div>
   );
 };

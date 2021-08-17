@@ -77,7 +77,7 @@ export const fetchPhotos = () => {
           ...album5.slice(0, 10),
         ];
 
-        console.log(photos);                                                            
+        // console.log(photos);                                                            
 
         dispatch(getPhotos(photos));
       })

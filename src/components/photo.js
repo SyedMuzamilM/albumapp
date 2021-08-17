@@ -1,4 +1,4 @@
-import { Avatar, Box, Grid, Typography } from "@material-ui/core";
+import { Avatar, Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
 
