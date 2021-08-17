@@ -54,21 +54,22 @@ export const fetchPhotos = () => {
             album3.push(items[i]);
           } else if (items[i].albumId === 4 && album4.length < 10) {
             album4.push(items[i]);
-          } else if (items[i].albumId === 1 && album5.length < 10) {
+          } else if (items[i].albumId === 5 && album5.length < 10) {
             album5.push(items[i]);
           }
         }
 
-        console.log(album1);
+        // console.log(album1);
 
-        const photos = [
-          ...album1.slice(0, 10),
-          ...album2.slice(0, 10),
-          ...album3.slice(0, 10),
-          ...album4.slice(0, 10),
-          ...album5.slice(0, 10),
-        ];
+        // const photos = [
+        //   ...album1.slice(0, 10),
+        //   ...album2.slice(0, 10),
+        //   ...album3.slice(0, 10),
+        //   ...album4.slice(0, 10),
+        //   ...album5.slice(0, 10),
+        // ];
 
+        const photos = [...album1, ...album2, ...album3, ...album4, ...album5]
         console.log(photos);
 
         dispatch(
